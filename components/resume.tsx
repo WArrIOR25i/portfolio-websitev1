@@ -21,11 +21,12 @@ export default function Resume() {
 
                 <div className="space-y-3">
                   <a
-                    href="#"
+                    href="/api/generate-cv"
+                    download="RAJATH_K_CV.txt"
                     className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors w-full sm:w-auto justify-center lg:justify-start"
                   >
                     <Download size={18} />
-                    Download PDF
+                    Download CV
                   </a>
                   <a
                     href="#"

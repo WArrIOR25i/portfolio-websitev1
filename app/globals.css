@@ -240,6 +240,30 @@
     animation-delay: 0.8s;
   }
 
+  /* Moved inline transition delay styles from scroll-reveal component to CSS */
+  .scroll-reveal {
+    --scroll-delay: 0ms;
+  }
+
+  .scroll-reveal[data-delay="0"] {
+    --scroll-delay: 0ms;
+  }
+  .scroll-reveal[data-delay="100"] {
+    --scroll-delay: 100ms;
+  }
+  .scroll-reveal[data-delay="200"] {
+    --scroll-delay: 200ms;
+  }
+  .scroll-reveal[data-delay="300"] {
+    --scroll-delay: 300ms;
+  }
+  .scroll-reveal[data-delay="400"] {
+    --scroll-delay: 400ms;
+  }
+  .scroll-reveal[data-delay="500"] {
+    --scroll-delay: 500ms;
+  }
+
   .cube-container-mobile {
     width: 120px;
     height: 120px;
