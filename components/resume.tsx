@@ -1,6 +1,6 @@
 "use client"
 
-import { Download, ExternalLink, Github } from "lucide-react"
+import { Download, ExternalLink } from "lucide-react"
 import { ScrollReveal } from "./scroll-reveal"
 
 export default function Resume() {
@@ -8,133 +8,111 @@ export default function Resume() {
     <section id="resume" className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-secondary/30 mt-8">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Left Column - Header & Download */}
+          {/* Left Column */}
           <ScrollReveal>
             <div className="lg:col-span-1">
               <div className="sticky top-24 space-y-6">
                 <div>
-                  <h2 className="text-4xl font-bold tracking-tight mb-2">CV & Resume</h2>
-                  <p className="text-muted-foreground">
-                    Download my resume or explore my projects, skills, and education below.
-                  </p>
+                  <h2 className="text-4xl font-bold tracking-tight mb-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                    CV & Resume
+                  </h2>
+                  <p className="text-muted-foreground">Download my resume or explore my projects and skills below.</p>
                 </div>
 
                 <div className="space-y-3">
                   <a
-                    href="/api/generate-cv"
-                    download="RAJATH_K_CV.txt"
-                    className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors w-full sm:w-auto justify-center lg:justify-start"
+                    href="/Rajath-Resume.pdf"
+                    download
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-lg font-medium hover:opacity-90 transition-all w-full sm:w-auto justify-center lg:justify-start"
                   >
                     <Download size={18} />
-                    Download CV
+                    Download Resume
                   </a>
                   <a
                     href="#"
-                    className="flex items-center gap-2 px-6 py-3 border border-border bg-card text-foreground rounded-lg font-medium hover:bg-secondary transition-colors w-full sm:w-auto justify-center lg:justify-start"
+                    className="flex items-center gap-2 px-6 py-3 border border-cyan-500/50 bg-card text-cyan-400 rounded-lg font-medium hover:bg-cyan-500/10 transition-colors w-full sm:w-auto justify-center lg:justify-start"
                   >
                     <ExternalLink size={18} />
                     LinkedIn Profile
-                  </a>
-                  <a
-                    href="#"
-                    className="flex items-center gap-2 px-6 py-3 border border-border bg-card text-foreground rounded-lg font-medium hover:bg-secondary transition-colors w-full sm:w-auto justify-center lg:justify-start"
-                  >
-                    <Github size={18} />
-                    GitHub Profile
                   </a>
                 </div>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Right Column - Projects & Skills */}
+          {/* Right Column */}
           <div className="lg:col-span-2 space-y-12">
             {/* Projects */}
             <ScrollReveal delay={100}>
               <div>
-                <h3 className="text-2xl font-bold mb-6">Featured Projects</h3>
+                <h3 className="text-2xl font-bold mb-6 text-cyan-400">Featured Projects</h3>
                 <div className="space-y-8">
-                  <div className="pb-8 border-b border-border last:border-b-0">
+                  {/* Project 1 */}
+                  <div className="pb-8 border-b border-border/50 last:border-b-0">
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <a
-                          href="/projects/procedural-dungeon"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-lg font-semibold hover:text-primary transition-colors cursor-pointer"
-                        >
-                          Procedural Dungeon Generator
-                        </a>
-                        <p className="text-muted-foreground">Personal Project</p>
+                        <span className="text-lg font-semibold text-foreground">Procedural Dungeon Generator</span>
+                        <p className="text-purple-400 text-sm">Personal Project</p>
                       </div>
                       <span className="text-sm text-muted-foreground">2024</span>
                     </div>
                     <p className="text-muted-foreground leading-relaxed">
-                      Built an advanced dungeon generation system using procedural algorithms in Unity. Features dynamic
-                      level layout, enemy placement, and interactive puzzle mechanics.
+                      Developed a procedural dungeon generation system using recursive algorithms in Unity. Implemented
+                      dynamic room placement, enemy spawning, and puzzle mechanics.
                     </p>
                   </div>
 
-                  <div className="pb-8 border-b border-border last:border-b-0">
+                  {/* Project 2 */}
+                  <div className="pb-8 border-b border-border/50 last:border-b-0">
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <a
-                          href="/projects/character-animation"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-lg font-semibold hover:text-primary transition-colors cursor-pointer"
-                        >
-                          Character Animation Suite
-                        </a>
-                        <p className="text-muted-foreground">Personal Project</p>
+                        <span className="text-lg font-semibold text-foreground">Character Animation Suite</span>
+                        <p className="text-purple-400 text-sm">Personal Project</p>
                       </div>
                       <span className="text-sm text-muted-foreground">2024</span>
                     </div>
                     <p className="text-muted-foreground leading-relaxed">
-                      Created a comprehensive character animation set in Blender with 50+ animations. Includes rigging,
-                      motion capture integration, and seamless blend states.
+                      Created a character animation library with 50+ motion sequences in Blender. Applied IK rigging,
+                      blend shapes, and state machine controllers.
                     </p>
                   </div>
 
+                  {/* Project 3 */}
                   <div>
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <a
-                          href="/projects/3d-environment"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-lg font-semibold hover:text-primary transition-colors cursor-pointer"
-                        >
-                          3D Environment Pack
-                        </a>
-                        <p className="text-muted-foreground">Personal Project</p>
+                        <span className="text-lg font-semibold text-foreground">3D Environment Pack</span>
+                        <p className="text-purple-400 text-sm">Personal Project</p>
                       </div>
                       <span className="text-sm text-muted-foreground">2023</span>
                     </div>
                     <p className="text-muted-foreground leading-relaxed">
-                      Designed a modular sci-fi environment with high-quality renders. Optimized for real-time rendering
-                      with custom shaders and materials.
+                      Designed a modular sci-fi environment kit with PBR materials optimized for real-time rendering.
+                      Created custom shaders and LOD systems.
                     </p>
                   </div>
                 </div>
               </div>
             </ScrollReveal>
 
-            {/* Skills */}
+            {/* Skills - Cleaned up */}
             <ScrollReveal delay={200}>
               <div>
-                <h3 className="text-2xl font-bold mb-6">Skills & Expertise</h3>
+                <h3 className="text-2xl font-bold mb-6 text-cyan-400">Skills & Expertise</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     { title: "Game Engines", items: "Unity, Unreal Engine, Godot" },
-                    { title: "3D Software", items: "Blender, 3ds Max, Substance Painter" },
-                    { title: "Programming", items: "C#, C++, Python, JavaScript" },
-                    { title: "Animation", items: "Motion Design, Character Rigging, VFX" },
-                    { title: "Design", items: "UI/UX, Level Design, Concept Art" },
-                    { title: "Tools & Version Control", items: "Git, GitHub, Visual Studio Code" },
+                    { title: "3D Software", items: "Blender, Maya, ZBrush" },
+                    { title: "Programming", items: "C#, C++, Blueprints" },
+                    { title: "Animation", items: "Rigging, Motion Capture, VFX" },
+                    { title: "Design", items: "Level Design, UI/UX, Concept Art" },
+                    { title: "Rendering", items: "Cycles, Eevee, Arnold" },
                   ].map((skillGroup) => (
-                    <div key={skillGroup.title} className="p-4 bg-card rounded-lg border border-border">
-                      <h4 className="font-semibold mb-2">{skillGroup.title}</h4>
+                    <div
+                      key={skillGroup.title}
+                      className="p-4 bg-card/50 rounded-lg border border-border/50 hover:border-cyan-500/30 transition-colors"
+                    >
+                      <h4 className="font-semibold mb-2 text-purple-300">{skillGroup.title}</h4>
                       <p className="text-sm text-muted-foreground">{skillGroup.items}</p>
                     </div>
                   ))}
@@ -145,17 +123,15 @@ export default function Resume() {
             {/* Education */}
             <ScrollReveal delay={300}>
               <div>
-                <h3 className="text-2xl font-bold mb-6">Education</h3>
-                <div className="space-y-4">
-                  <div className="p-4 bg-card rounded-lg border border-border">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h4 className="font-semibold">Bachelor of Computer Applications</h4>
-                        <p className="text-sm text-muted-foreground">Game Design & Graphics</p>
-                        <p className="text-sm text-muted-foreground">Shoolini University, Himachal Pradesh</p>
-                      </div>
-                      <span className="text-sm text-muted-foreground whitespace-nowrap ml-2">2025</span>
+                <h3 className="text-2xl font-bold mb-6 text-cyan-400">Education</h3>
+                <div className="p-4 bg-card/50 rounded-lg border border-border/50">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h4 className="font-semibold text-foreground">Bachelor of Computer Applications</h4>
+                      <p className="text-sm text-purple-400">Game Design & Graphics</p>
+                      <p className="text-sm text-muted-foreground">Shoolini University, Himachal Pradesh</p>
                     </div>
+                    <span className="text-sm text-muted-foreground whitespace-nowrap ml-2">2025</span>
                   </div>
                 </div>
               </div>
