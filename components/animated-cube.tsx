@@ -17,13 +17,14 @@ export function AnimatedCube() {
   }, [])
 
   useEffect(() => {
-    if (!containerRef.current || isMobile) return
+    if (!containerRef.current) return
 
     const rotation = { x: 0, y: 0 }
     const targetRotation = { x: 0, y: 0 }
+    let scrollRotation = 0
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return
+      if (!containerRef.current || isMobile) return
       const rect = containerRef.current.getBoundingClientRect()
 
       const normalizedX = (e.clientX - rect.left) / rect.width - 0.5
@@ -33,14 +34,21 @@ export function AnimatedCube() {
       targetRotation.y = normalizedX * 45
     }
 
-    window.addEventListener("mousemove", handleMouseMove)
+    const handleScroll = () => {
+      scrollRotation = window.scrollY * 0.03
+    }
+
+    if (!isMobile) {
+      window.addEventListener("mousemove", handleMouseMove)
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true })
 
     const animate = () => {
       rotation.x += (targetRotation.x - rotation.x) * 0.12
       rotation.y += (targetRotation.y - rotation.y) * 0.12
 
       if (cubeRef.current) {
-        cubeRef.current.style.transform = `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`
+        cubeRef.current.style.transform = `rotateX(${rotation.x - scrollRotation}deg) rotateY(${rotation.y + scrollRotation * 0.5}deg)`
       }
       requestAnimationFrame(animate)
     }
@@ -48,6 +56,7 @@ export function AnimatedCube() {
     const animationId = requestAnimationFrame(animate)
     return () => {
       window.removeEventListener("mousemove", handleMouseMove)
+      window.removeEventListener("scroll", handleScroll)
       cancelAnimationFrame(animationId)
     }
   }, [isMobile])
