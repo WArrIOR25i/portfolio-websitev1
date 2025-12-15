@@ -111,7 +111,7 @@ export default function Showcase() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={200} className="hidden lg:block h-96">
+          <ScrollReveal delay={200} className="h-48 sm:h-64 md:h-80 lg:h-96">
             <AnimatedCube />
           </ScrollReveal>
         </div>

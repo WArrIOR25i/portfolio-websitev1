@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ backgroundColor: "#0a0e27" }}>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -32,7 +32,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`font-sans antialiased`}>
+      <body className={`font-sans antialiased min-h-screen`} style={{ backgroundColor: "#0a0e27" }}>
         {children}
         <Analytics />
       </body>

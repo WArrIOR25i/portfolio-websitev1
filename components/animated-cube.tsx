@@ -6,10 +6,21 @@ export function AnimatedCube() {
   const cubeRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [cubeSize, setCubeSize] = useState(100)
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024)
+      const width = window.innerWidth
+      setIsMobile(width < 768)
+      if (width < 480) {
+        setCubeSize(70)
+      } else if (width < 768) {
+        setCubeSize(90)
+      } else if (width < 1024) {
+        setCubeSize(120)
+      } else {
+        setCubeSize(100)
+      }
     }
     checkMobile()
     window.addEventListener("resize", checkMobile)
@@ -35,7 +46,7 @@ export function AnimatedCube() {
     }
 
     const handleScroll = () => {
-      scrollRotation = window.scrollY * 0.03
+      scrollRotation = window.scrollY * 0.0315
     }
 
     if (!isMobile) {
@@ -61,7 +72,9 @@ export function AnimatedCube() {
     }
   }, [isMobile])
 
-  const faceStyle = (rotateX: string, rotateY: string, rotateZ: string, translateZ: string) => ({
+  const halfSize = cubeSize / 2
+
+  const faceStyle = (rotateX: string, rotateY: string, rotateZ: string, translateZ: number) => ({
     position: "absolute" as const,
     width: "100%",
     height: "100%",
@@ -71,12 +84,12 @@ export function AnimatedCube() {
     fontSize: "24px",
     fontWeight: "bold",
     border: "2px solid #00ffff",
-    transform: `${rotateX} ${rotateY} ${rotateZ} ${translateZ}`,
+    transform: `${rotateX} ${rotateY} ${rotateZ} translateZ(${translateZ}px)`,
     backfaceVisibility: "hidden" as const,
   })
 
   return (
-    <div className="w-full h-full flex items-center justify-center py-8 sm:py-12 md:py-16">
+    <div className="w-full h-full flex items-center justify-center py-4 sm:py-8 md:py-12">
       <div
         ref={containerRef}
         style={{
@@ -91,18 +104,17 @@ export function AnimatedCube() {
         <div
           ref={cubeRef}
           style={{
-            width: "200px",
-            height: "200px",
+            width: `${cubeSize}px`,
+            height: `${cubeSize}px`,
             position: "relative",
             transformStyle: "preserve-3d",
             transition: "transform 0.05s ease-out",
           }}
-          className="md:w-64 md:h-64"
         >
           {/* Front Face - Cyan */}
           <div
             style={{
-              ...faceStyle("rotateX(0deg)", "rotateY(0deg)", "rotateZ(0deg)", "translateZ(100px)"),
+              ...faceStyle("rotateX(0deg)", "rotateY(0deg)", "rotateZ(0deg)", halfSize),
               background: "linear-gradient(135deg, #00ffff 0%, #0088ff 50%, #004499 100%)",
               boxShadow: "inset 0 0 30px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.6)",
             }}
@@ -111,7 +123,7 @@ export function AnimatedCube() {
           {/* Back Face - Magenta */}
           <div
             style={{
-              ...faceStyle("rotateX(0deg)", "rotateY(180deg)", "rotateZ(0deg)", "translateZ(100px)"),
+              ...faceStyle("rotateX(0deg)", "rotateY(180deg)", "rotateZ(0deg)", halfSize),
               background: "linear-gradient(135deg, #ff00ff 0%, #ff0088 50%, #990044 100%)",
               boxShadow: "inset 0 0 30px rgba(255, 0, 255, 0.5), 0 0 40px rgba(255, 0, 255, 0.6)",
             }}
@@ -120,7 +132,7 @@ export function AnimatedCube() {
           {/* Right Face - Cyan */}
           <div
             style={{
-              ...faceStyle("rotateX(0deg)", "rotateY(90deg)", "rotateZ(0deg)", "translateZ(100px)"),
+              ...faceStyle("rotateX(0deg)", "rotateY(90deg)", "rotateZ(0deg)", halfSize),
               background: "linear-gradient(135deg, #00ffff 0%, #0099ff 50%, #004488 100%)",
               boxShadow: "inset 0 0 30px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.5)",
             }}
@@ -129,7 +141,7 @@ export function AnimatedCube() {
           {/* Left Face - Magenta */}
           <div
             style={{
-              ...faceStyle("rotateX(0deg)", "rotateY(-90deg)", "rotateZ(0deg)", "translateZ(100px)"),
+              ...faceStyle("rotateX(0deg)", "rotateY(-90deg)", "rotateZ(0deg)", halfSize),
               background: "linear-gradient(135deg, #ff00ff 0%, #ff0099 50%, #990055 100%)",
               boxShadow: "inset 0 0 30px rgba(255, 0, 255, 0.4), 0 0 30px rgba(255, 0, 255, 0.5)",
             }}
@@ -138,7 +150,7 @@ export function AnimatedCube() {
           {/* Top Face - Cyan */}
           <div
             style={{
-              ...faceStyle("rotateX(90deg)", "rotateY(0deg)", "rotateZ(0deg)", "translateZ(100px)"),
+              ...faceStyle("rotateX(90deg)", "rotateY(0deg)", "rotateZ(0deg)", halfSize),
               background: "linear-gradient(135deg, #00ffff 0%, #0077dd 50%, #003388 100%)",
               boxShadow: "inset 0 0 30px rgba(0, 255, 255, 0.3), 0 0 25px rgba(0, 255, 255, 0.4)",
             }}
@@ -147,7 +159,7 @@ export function AnimatedCube() {
           {/* Bottom Face - Magenta */}
           <div
             style={{
-              ...faceStyle("rotateX(-90deg)", "rotateY(0deg)", "rotateZ(0deg)", "translateZ(100px)"),
+              ...faceStyle("rotateX(-90deg)", "rotateY(0deg)", "rotateZ(0deg)", halfSize),
               background: "linear-gradient(135deg, #ff00ff 0%, #dd0077 50%, #880033 100%)",
               boxShadow: "inset 0 0 30px rgba(255, 0, 255, 0.3), 0 0 25px rgba(255, 0, 255, 0.4)",
             }}
