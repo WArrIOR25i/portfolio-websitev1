@@ -6,20 +6,22 @@ export function AnimatedCube() {
   const cubeRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
-  const [cubeSize, setCubeSize] = useState(100)
+  const [cubeSize, setCubeSize] = useState(150)
 
   useEffect(() => {
     const checkMobile = () => {
       const width = window.innerWidth
       setIsMobile(width < 768)
       if (width < 480) {
-        setCubeSize(70)
+        setCubeSize(80)
       } else if (width < 768) {
-        setCubeSize(90)
-      } else if (width < 1024) {
-        setCubeSize(120)
-      } else {
         setCubeSize(100)
+      } else if (width < 1024) {
+        setCubeSize(140)
+      } else if (width < 1280) {
+        setCubeSize(160)
+      } else {
+        setCubeSize(180)
       }
     }
     checkMobile()
@@ -34,6 +36,12 @@ export function AnimatedCube() {
     const targetRotation = { x: 0, y: 0 }
     let scrollRotation = 0
 
+    let touchStartX = 0
+    let touchStartY = 0
+    let touchRotationX = 0
+    let touchRotationY = 0
+    let isDragging = false
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current || isMobile) return
       const rect = containerRef.current.getBoundingClientRect()
@@ -45,12 +53,42 @@ export function AnimatedCube() {
       targetRotation.y = normalizedX * 45
     }
 
+    const handleTouchStart = (e: TouchEvent) => {
+      if (!isMobile || e.touches.length !== 1) return
+      isDragging = true
+      touchStartX = e.touches[0].clientX
+      touchStartY = e.touches[0].clientY
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isMobile || !isDragging || e.touches.length !== 1) return
+
+      const deltaX = e.touches[0].clientX - touchStartX
+      const deltaY = e.touches[0].clientY - touchStartY
+
+      touchRotationY = deltaX * 0.5
+      touchRotationX = -deltaY * 0.5
+
+      targetRotation.x = touchRotationX
+      targetRotation.y = touchRotationY
+    }
+
+    const handleTouchEnd = () => {
+      isDragging = false
+      touchStartX = 0
+      touchStartY = 0
+    }
+
     const handleScroll = () => {
       scrollRotation = window.scrollY * 0.0315
     }
 
     if (!isMobile) {
       window.addEventListener("mousemove", handleMouseMove)
+    } else {
+      containerRef.current.addEventListener("touchstart", handleTouchStart, { passive: true })
+      containerRef.current.addEventListener("touchmove", handleTouchMove, { passive: true })
+      containerRef.current.addEventListener("touchend", handleTouchEnd)
     }
     window.addEventListener("scroll", handleScroll, { passive: true })
 
@@ -65,9 +103,16 @@ export function AnimatedCube() {
     }
 
     const animationId = requestAnimationFrame(animate)
+
+    const container = containerRef.current
     return () => {
       window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("scroll", handleScroll)
+      if (container) {
+        container.removeEventListener("touchstart", handleTouchStart)
+        container.removeEventListener("touchmove", handleTouchMove)
+        container.removeEventListener("touchend", handleTouchEnd)
+      }
       cancelAnimationFrame(animationId)
     }
   }, [isMobile])
@@ -75,7 +120,7 @@ export function AnimatedCube() {
   const halfSize = cubeSize / 2
 
   const faceStyle = (rotateX: string, rotateY: string, rotateZ: string, translateZ: number) => ({
-    position: "absolute" as const,
+    position: "absolute",
     width: "100%",
     height: "100%",
     display: "flex",
@@ -85,7 +130,7 @@ export function AnimatedCube() {
     fontWeight: "bold",
     border: "2px solid #00ffff",
     transform: `${rotateX} ${rotateY} ${rotateZ} translateZ(${translateZ}px)`,
-    backfaceVisibility: "hidden" as const,
+    backfaceVisibility: "hidden",
   })
 
   return (
