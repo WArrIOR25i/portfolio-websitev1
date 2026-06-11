@@ -53,8 +53,9 @@ const WAVE_FRAG = /* glsl */ `
     float dist = length(toM);
     vec2 dir = toM / (dist + 1e-4);
 
-    // Energy: a calm baseline that surges as the pointer moves (fluid wake).
-    float energy = uIntensity * (0.55 + uVel * 7.0);
+    // Constant ripple energy: distortion strength never changes with pointer
+    // speed, so there is no brightness pulsing whether idle, slow, or fast.
+    float energy = uIntensity * 0.5;
 
     // Concentric ripple radiating from (and trailing) the cursor.
     float ripple = sin(dist * 24.0 - uTime * 3.2) * exp(-dist * 2.9) * energy;
@@ -68,17 +69,15 @@ const WAVE_FRAG = /* glsl */ `
     float n = mix(n1, n2, 0.5);
 
     // Brighter, more legible palette: deep navy -> mid blue -> azure crests.
-    vec3 deep  = vec3(0.020, 0.030, 0.052);
-    vec3 mid   = vec3(0.055, 0.130, 0.300);
-    vec3 azure = vec3(0.150, 0.330, 0.760);
-    vec3 col = mix(deep, mid, smoothstep(0.18, 0.70, n));
-    col = mix(col, azure, smoothstep(0.55, 1.0, n) * 0.85);
+    vec3 deep  = vec3(0.018, 0.026, 0.045);
+    vec3 mid   = vec3(0.040, 0.090, 0.210);
+    vec3 azure = vec3(0.090, 0.190, 0.460);
+    vec3 col = mix(deep, mid, smoothstep(0.20, 0.78, n));
+    col = mix(col, azure, smoothstep(0.66, 1.0, n) * 0.45);
 
-    // Soft glow halo that follows the cursor and brightens with movement.
-    col += vec3(0.10, 0.22, 0.55) * exp(-dist * 2.6)
-         * (0.6 + 0.4 * sin(uTime * 1.5)) * (0.7 + uVel * 6.0);
-    // Bright crest on the leading ripple.
-    col += vec3(0.16, 0.30, 0.66) * max(ripple, 0.0);
+    // The cursor only distorts the liquid (via the ripple warp above) — it adds
+    // no glow or brightness at all, so the field stays a constant, readable
+    // brightness whether the pointer is idle, slow, or fast.
 
     gl_FragColor = vec4(col, 1.0);
   }
@@ -306,7 +305,8 @@ export function InteractiveBackground() {
       if (glowX && glowY) {
         glowX(e.clientX)
         glowY(e.clientY)
-        if (glow) glow.style.opacity = "1"
+        // Opacity is driven by pointer speed in the render loop, so the glow
+        // is absent when idle and only appears while the cursor is moving.
       }
     }
     const onPointerLeave = () => {
@@ -468,12 +468,20 @@ export function InteractiveBackground() {
       <div ref={mountRef} className="absolute inset-0" />
       <div
         ref={glowRef}
-        className="absolute top-0 left-0 h-[460px] w-[460px] rounded-full opacity-0 transition-opacity duration-500 will-change-transform"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(110,162,255,0.20) 0%, rgba(110,162,255,0.07) 35%, transparent 70%)",
-        }}
-      />
+        className="absolute top-0 left-0 h-[300px] w-[300px] opacity-0 will-change-transform"
+      >
+        {/* Inner element carries the breathing scale pulse (--glow-scale),
+            kept separate so it never fights GSAP's positioning transform. */}
+        <div
+          className="h-full w-full rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(110,162,255,0.16) 0%, rgba(110,162,255,0.05) 38%, transparent 70%)",
+            transform: "scale(var(--glow-scale, 1))",
+            transformOrigin: "center",
+          }}
+        />
+      </div>
     </div>
   )
 }

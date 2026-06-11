@@ -64,7 +64,7 @@ export default function RootLayout({
       className={`dark ${geist.variable} ${geistMono.variable}`}
       style={{ backgroundColor: "#0a0a0b" }}
     >
-      <body className="font-sans antialiased min-h-screen flex flex-col" style={{ backgroundColor: "#0a0a0b" }}>
+      <body className="font-sans antialiased min-h-screen flex flex-col">
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>

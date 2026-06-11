@@ -142,10 +142,11 @@
 
   body {
     @apply text-foreground;
-    background:
-      radial-gradient(ellipse 90% 55% at 50% -5%, rgba(var(--gold-rgb), 0.06) 0%, transparent 60%),
-      linear-gradient(180deg, #0c0c0d 0%, #0a0a0b 50%, #090909 100%);
-    background-attachment: fixed;
+    /* Transparent on purpose: the fixed WebGL background sits at z-index -10
+       (a child of <body>). An opaque body background would paint over it
+       because <body> is positioned. The base color lives on <html>, and
+       InteractiveBackground renders its own gradient fallback. */
+    background: transparent;
     position: relative;
     overflow-x: hidden;
     min-height: 100vh;
