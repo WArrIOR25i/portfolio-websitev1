@@ -2,6 +2,9 @@ import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { InteractiveBackground } from "@/components/interactive-background"
+import Navigation from "@/components/navigation"
+import Footer from "@/components/footer"
 import "./globals.css"
 
 const geist = Geist({
@@ -61,11 +64,18 @@ export default function RootLayout({
       className={`dark ${geist.variable} ${geistMono.variable}`}
       style={{ backgroundColor: "#0a0a0b" }}
     >
-      <body className="font-sans antialiased min-h-screen" style={{ backgroundColor: "#0a0a0b" }}>
+      <body className="font-sans antialiased min-h-screen flex flex-col" style={{ backgroundColor: "#0a0a0b" }}>
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
-        {children}
+        <InteractiveBackground />
+        <div className="relative z-10 flex min-h-screen flex-col">
+          <Navigation />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </div>
         <Analytics />
       </body>
     </html>

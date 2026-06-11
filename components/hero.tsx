@@ -1,21 +1,21 @@
 "use client"
 
 import { useRef, useCallback, useEffect } from "react"
+import Link from "next/link"
 import { ArrowRight, Mail, ChevronDown } from "lucide-react"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
+import { WavyText } from "./wavy-text"
 
 const DISCIPLINE_TAGS = ["Game Developer", "3D Artist", "Animator", "Software Engineer"]
 
 /** A CTA button that subtly drifts toward the cursor (magnetic effect). */
-function MagneticButton({
+function MagneticLink({
   href,
-  onClick,
   variant,
   children,
   enabled,
 }: {
   href: string
-  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void
   variant: "primary" | "secondary"
   children: React.ReactNode
   enabled: boolean
@@ -45,16 +45,15 @@ function MagneticButton({
       : "border border-gold/40 glass text-gold hover:bg-gold/10 hover:border-gold/70 hover:shadow-[0_0_24px_rgba(110,162,255,0.18)]"
 
   return (
-    <a
+    <Link
       ref={ref}
       href={href}
-      onClick={onClick}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       className={`${base} ${styles}`}
     >
       {children}
-    </a>
+    </Link>
   )
 }
 
@@ -63,8 +62,7 @@ export default function Hero() {
   const eclipseRef = useRef<HTMLDivElement>(null)
   const shapesRef = useRef<HTMLDivElement>(null)
 
-  // GSAP ScrollTrigger parallax: the eclipse glow and floating shapes drift at
-  // different speeds as the hero scrolls away. Disabled under reduced motion.
+  // GSAP ScrollTrigger parallax for the hero decorative layers.
   useEffect(() => {
     if (reducedMotion) return
     let ctx: { revert: () => void } | undefined
@@ -77,18 +75,9 @@ export default function Hero() {
       gsap.registerPlugin(ScrollTrigger)
 
       ctx = gsap.context(() => {
-        const scrollTrigger = {
-          trigger: "#hero",
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        }
-        if (eclipseRef.current) {
-          gsap.to(eclipseRef.current, { yPercent: 28, ease: "none", scrollTrigger })
-        }
-        if (shapesRef.current) {
-          gsap.to(shapesRef.current, { yPercent: 60, ease: "none", scrollTrigger })
-        }
+        const scrollTrigger = { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
+        if (eclipseRef.current) gsap.to(eclipseRef.current, { yPercent: 28, ease: "none", scrollTrigger })
+        if (shapesRef.current) gsap.to(shapesRef.current, { yPercent: 60, ease: "none", scrollTrigger })
       })
     })()
 
@@ -98,25 +87,17 @@ export default function Hero() {
     }
   }, [reducedMotion])
 
-  const scrollTo = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault()
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
-  }, [])
-
   return (
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
       {/* Background decorative layers (GSAP scroll parallax). */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
-        {/* Eclipse glow — wrapper carries the parallax transform so the inner
-            element keeps its own -translate-x-1/2 centering. */}
         <div ref={eclipseRef} className="absolute inset-0 will-change-transform">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] max-w-[120vw] h-[520px] eclipse-gradient eclipse-glow" />
         </div>
-        {/* Floating geometric shapes. */}
         <div ref={shapesRef} className="absolute inset-0 will-change-transform">
           <div className="absolute top-[18%] left-[12%] w-24 h-24 border border-gold/20 rotate-45 animate-float" />
           <div className="absolute top-[60%] left-[20%] w-16 h-16 border border-white/10 rounded-full animate-float-slow" />
@@ -128,7 +109,6 @@ export default function Hero() {
       </div>
 
       <div className="max-w-4xl mx-auto text-center">
-        {/* Availability badge */}
         <div
           className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-8 text-sm animate-fade-up"
           style={{ animationDelay: "0ms" }}
@@ -142,21 +122,17 @@ export default function Hero() {
 
         <h1
           id="hero-heading"
-          className={`text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight mb-5 text-gradient ${
-            reducedMotion ? "" : "animate-rise"
-          }`}
+          className={`text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight mb-5 ${reducedMotion ? "" : "animate-rise"}`}
         >
-          RAJATH K
+          <WavyText as="span" className="inline-block text-gradient-flow" intensity={22} frequency={0.01} idle>
+            RAJATH K
+          </WavyText>
         </h1>
 
-        <p
-          className="text-xl sm:text-2xl font-medium text-gold mb-6 animate-fade-up"
-          style={{ animationDelay: "120ms" }}
-        >
+        <p className="text-xl sm:text-2xl font-medium text-gold mb-6 animate-fade-up" style={{ animationDelay: "120ms" }}>
           Game Developer · 3D Artist · Software Engineer
         </p>
 
-        {/* Discipline tags */}
         <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8">
           {DISCIPLINE_TAGS.map((tag, i) => (
             <span
@@ -181,26 +157,24 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up"
           style={{ animationDelay: "720ms" }}
         >
-          <MagneticButton href="#showcase" onClick={(e) => scrollTo(e, "showcase")} variant="primary" enabled={!reducedMotion}>
+          <MagneticLink href="/work" variant="primary" enabled={!reducedMotion}>
             Explore Work
             <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </MagneticButton>
-          <MagneticButton href="#contact" onClick={(e) => scrollTo(e, "contact")} variant="secondary" enabled={!reducedMotion}>
+          </MagneticLink>
+          <MagneticLink href="/contact" variant="secondary" enabled={!reducedMotion}>
             <Mail className="w-4 h-4" aria-hidden="true" />
             Get in Touch
-          </MagneticButton>
+          </MagneticLink>
         </div>
       </div>
 
       {/* Scroll cue */}
-      <a
-        href="#showcase"
-        onClick={(e) => scrollTo(e, "showcase")}
-        aria-label="Scroll to work"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gold/60 hover:text-gold transition-colors"
+      <span
+        aria-hidden="true"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gold/50"
       >
-        <ChevronDown className={`w-7 h-7 ${reducedMotion ? "" : "animate-bounce"}`} aria-hidden="true" />
-      </a>
+        <ChevronDown className={`w-7 h-7 ${reducedMotion ? "" : "animate-bounce"}`} />
+      </span>
     </section>
   )
 }

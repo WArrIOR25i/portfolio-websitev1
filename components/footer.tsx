@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Gamepad2, Mail, MapPin } from "lucide-react"
 import { siteConfig, mailtoHref } from "@/lib/site-config"
 import { SocialLinks } from "./social-links"
@@ -23,15 +24,18 @@ export default function Footer() {
           <nav aria-label="Footer">
             <h3 className="font-semibold mb-4 text-gold">Navigation</h3>
             <div className="space-y-2 text-sm">
-              <a href="#showcase" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
+              <Link href="/" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
+                Home
+              </Link>
+              <Link href="/work" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
                 Work
-              </a>
-              <a href="#resume" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
-                Resume
-              </a>
-              <a href="#contact" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
+              </Link>
+              <Link href="/about" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
+                About
+              </Link>
+              <Link href="/contact" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
                 Contact
-              </a>
+              </Link>
             </div>
           </nav>
           <div>
@@ -54,6 +58,9 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-8 text-center text-sm text-muted-foreground">
           <p>© {year} {siteConfig.name} · {siteConfig.location}. All rights reserved.</p>
+          <p className="mt-2 text-xs text-muted-foreground/80">
+            Designed, built &amp; (over)thought by hand — with a lot of coffee and the occasional 2&nbsp;a.m. idea in {siteConfig.location}.
+          </p>
         </div>
       </div>
     </footer>

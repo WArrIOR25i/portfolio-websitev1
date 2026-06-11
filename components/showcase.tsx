@@ -15,7 +15,7 @@ import {
   type Project,
 } from "@/lib/projects-data"
 
-export default function Showcase() {
+export default function Showcase({ hideIntro = false }: { hideIntro?: boolean }) {
   const reducedMotion = useReducedMotion()
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("All")
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
@@ -47,29 +47,31 @@ export default function Showcase() {
       className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 scroll-mt-20"
     >
       <div className="max-w-[1400px] mx-auto">
-        <div className="mb-12 grid lg:grid-cols-2 gap-12 items-center">
-          <ScrollReveal>
-            <div>
-              <p className="text-sm font-medium uppercase tracking-[0.2em] text-gold mb-3">Selected Work</p>
-              <h2
-                id="showcase-heading"
-                className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 text-gradient"
-              >
-                Featured Projects
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-xl">
-                A cross-section of work spanning game development, 3D art, animation, and software tooling.
-                Filter by discipline or explore it all.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          {!reducedMotion && (
-            <ScrollReveal delay={150} className="h-48 sm:h-64 md:h-80 lg:h-96 hidden sm:block">
-              <AnimatedCube />
+        {!hideIntro && (
+          <div className="mb-12 grid lg:grid-cols-2 gap-12 items-center">
+            <ScrollReveal>
+              <div>
+                <p className="text-sm font-medium uppercase tracking-[0.2em] text-gold mb-3">Selected Work</p>
+                <h2
+                  id="showcase-heading"
+                  className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 text-gradient"
+                >
+                  Featured Projects
+                </h2>
+                <p className="text-lg text-muted-foreground max-w-xl">
+                  A cross-section of work spanning game development, 3D art, animation, and software tooling.
+                  Filter by discipline or explore it all.
+                </p>
+              </div>
             </ScrollReveal>
-          )}
-        </div>
+
+            {!reducedMotion && (
+              <ScrollReveal delay={150} className="h-48 sm:h-64 md:h-80 lg:h-96 hidden sm:block">
+                <AnimatedCube />
+              </ScrollReveal>
+            )}
+          </div>
+        )}
 
         {/* Filters */}
         <ScrollReveal delay={100}>

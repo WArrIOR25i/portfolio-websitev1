@@ -1,8 +1,8 @@
 "use client"
 
-import { Mail, MapPin, Clock, ArrowUpRight } from "lucide-react"
+import { Mail, MapPin, Clock, ArrowUpRight, Linkedin } from "lucide-react"
 import { ScrollReveal } from "./scroll-reveal"
-import { SocialLinks } from "./social-links"
+import { ArtStationIcon } from "./icons/artstation"
 import { siteConfig, mailtoHref } from "@/lib/site-config"
 
 export default function Contact() {
@@ -79,13 +79,53 @@ export default function Contact() {
           </a>
         </ScrollReveal>
 
-        {/* Social links */}
+        {/* Social links — big tabs to match the email card */}
         <ScrollReveal delay={200}>
-          <div className="mt-10 flex flex-col items-center gap-4">
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              Or find me on
-            </span>
-            <SocialLinks className="justify-center" iconSize={20} />
+          <div className="mt-6 flex items-center justify-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            <span className="h-px w-8 bg-white/15" aria-hidden="true" />
+            Or find me on
+            <span className="h-px w-8 bg-white/15" aria-hidden="true" />
+          </div>
+          <div className="mx-auto mt-6 grid max-w-md grid-cols-1 gap-4 sm:grid-cols-2">
+            <a
+              href={siteConfig.social.artstation}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="ArtStation"
+              className="group sheen hover-lift relative flex flex-col items-center gap-3 glass rounded-2xl border border-white/10 p-7 hover:border-gold/50 hover:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8),0_0_36px_-12px_rgba(110,162,255,0.4)]"
+            >
+              <ArrowUpRight
+                className="absolute top-4 right-4 w-4 h-4 text-muted-foreground transition-all duration-300 group-hover:text-gold group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              />
+              <span className="p-4 rounded-xl bg-gold/10 text-gold group-hover:bg-gold/20 transition-colors">
+                <ArtStationIcon size={28} aria-hidden="true" />
+              </span>
+              <span className="text-lg font-semibold text-foreground group-hover:text-gold transition-colors">
+                ArtStation
+              </span>
+              <span className="text-sm text-muted-foreground">Renders &amp; 3D art</span>
+            </a>
+
+            <a
+              href={siteConfig.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="group sheen hover-lift relative flex flex-col items-center gap-3 glass rounded-2xl border border-white/10 p-7 hover:border-gold/50 hover:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8),0_0_36px_-12px_rgba(110,162,255,0.4)]"
+            >
+              <ArrowUpRight
+                className="absolute top-4 right-4 w-4 h-4 text-muted-foreground transition-all duration-300 group-hover:text-gold group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              />
+              <span className="p-4 rounded-xl bg-gold/10 text-gold group-hover:bg-gold/20 transition-colors">
+                <Linkedin className="w-7 h-7" aria-hidden="true" />
+              </span>
+              <span className="text-lg font-semibold text-foreground group-hover:text-gold transition-colors">
+                LinkedIn
+              </span>
+              <span className="text-sm text-muted-foreground">Let&apos;s connect</span>
+            </a>
           </div>
         </ScrollReveal>
       </div>

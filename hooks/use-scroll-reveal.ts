@@ -7,17 +7,20 @@ interface ScrollRevealOptions {
   rootMargin?: string
   /** Reveal immediately (used when the user prefers reduced motion). */
   disabled?: boolean
+  /** Re-hide and re-reveal each time the element enters/leaves the viewport. */
+  repeat?: boolean
 }
 
 /**
- * Lightweight Intersection Observer reveal. Replaces the old `scrollreveal`
- * dependency. When `disabled` is true (reduced motion) the element is marked
- * visible immediately so content never stays hidden.
+ * Lightweight Intersection Observer reveal. When `disabled` is true (reduced
+ * motion) the element is marked visible immediately so content never stays
+ * hidden. When `repeat` is true the reveal re-triggers on every entry.
  */
 export function useScrollReveal({
   threshold = 0.12,
-  rootMargin = "0px 0px -50px 0px",
+  rootMargin = "0px 0px -60px 0px",
   disabled = false,
+  repeat = false,
 }: ScrollRevealOptions = {}) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -35,7 +38,9 @@ export function useScrollReveal({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
-          observer.unobserve(entry.target)
+          if (!repeat) observer.unobserve(entry.target)
+        } else if (repeat) {
+          setIsVisible(false)
         }
       },
       { threshold, rootMargin },
@@ -43,7 +48,7 @@ export function useScrollReveal({
 
     observer.observe(node)
     return () => observer.disconnect()
-  }, [threshold, rootMargin, disabled])
+  }, [threshold, rootMargin, disabled, repeat])
 
   return { ref, isVisible }
 }
