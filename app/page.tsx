@@ -5,32 +5,31 @@ import Resume from "@/components/resume"
 import Contact from "@/components/contact"
 import Footer from "@/components/footer"
 import { CyberDivider } from "@/components/cyber-divider"
-import { CyberBackground } from "@/components/cyber-background"
+import { InteractiveBackground } from "@/components/interactive-background"
 
 export default function Home() {
   return (
-    <main className="relative bg-transparent text-foreground">
-      <CyberBackground />
+    <div className="relative bg-transparent text-foreground">
+      <InteractiveBackground />
       <div className="relative z-10">
         <Navigation />
-        <Hero />
-        <div className="container mx-auto px-4 py-8">
-          <CyberDivider variant={1} />
-        </div>
-        <Showcase />
-        <div className="container mx-auto px-4 py-8">
-          <CyberDivider variant={2} />
-        </div>
-        <Resume />
-        <div className="container mx-auto px-4 py-8">
-          <CyberDivider variant={3} />
-        </div>
-        <Contact />
-        <div className="container mx-auto px-4 py-4">
-          <CyberDivider variant={4} />
-        </div>
+        <main id="main-content">
+          <Hero />
+          <div className="max-w-[1400px] mx-auto px-4 py-6" aria-hidden="true">
+            <CyberDivider variant={1} />
+          </div>
+          <Showcase />
+          <div className="max-w-[1400px] mx-auto px-4 py-6" aria-hidden="true">
+            <CyberDivider variant={2} />
+          </div>
+          <Resume />
+          <div className="max-w-[1400px] mx-auto px-4 py-6" aria-hidden="true">
+            <CyberDivider variant={3} />
+          </div>
+          <Contact />
+        </main>
         <Footer />
       </div>
-    </main>
+    </div>
   )
 }

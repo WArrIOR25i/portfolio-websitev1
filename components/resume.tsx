@@ -1,139 +1,214 @@
 "use client"
 
-import { Download, ExternalLink } from "lucide-react"
+import { Download, Mail, GraduationCap, Award } from "lucide-react"
 import { ScrollReveal } from "./scroll-reveal"
+import { ProgressBar } from "./ui/progress-bar"
+
+const SKILL_GROUPS = [
+  {
+    heading: "Game Development",
+    skills: [
+      { label: "Unity / C#", value: 90 },
+      { label: "Unreal Engine / C++", value: 80 },
+      { label: "Gameplay & AI Systems", value: 85 },
+      { label: "Godot", value: 65 },
+    ],
+  },
+  {
+    heading: "3D Art & Animation",
+    skills: [
+      { label: "Blender (Modelling & Sculpt)", value: 90 },
+      { label: "Lighting & Rendering (Cycles/Eevee)", value: 85 },
+      { label: "Rigging & Animation", value: 75 },
+      { label: "Motion Design (After Effects)", value: 70 },
+    ],
+  },
+  {
+    heading: "Programming",
+    skills: [
+      { label: "C# / C++", value: 85 },
+      { label: "Python", value: 75 },
+      { label: "JavaScript / TypeScript", value: 70 },
+      { label: "Algorithms & Tooling", value: 80 },
+    ],
+  },
+  {
+    heading: "Tools & Pipelines",
+    skills: [
+      { label: "Git / GitHub", value: 85 },
+      { label: "Substance Painter", value: 70 },
+      { label: "Shader Authoring", value: 72 },
+    ],
+  },
+]
+
+const EXPERIENCE = [
+  {
+    title: "Procedural Dungeon Generator",
+    org: "Personal Project",
+    date: "2024",
+    description:
+      "Built a runtime procedural dungeon system in Unity using recursive room placement. Designed enemy spawning and puzzle mechanics around designer-tunable parameters.",
+  },
+  {
+    title: "Character Animation Suite",
+    org: "Personal Project",
+    date: "2024",
+    description:
+      "Authored a library of 50+ motion sequences in Blender with IK rigging and blend shapes. Wired up state-machine controllers for seamless transitions.",
+  },
+  {
+    title: "3D Environment Pack",
+    org: "Personal Project",
+    date: "2023",
+    description:
+      "Designed a modular sci-fi environment kit with PBR materials optimized for real-time use. Created custom shaders and LOD systems for performance.",
+  },
+]
+
+const CERTIFICATIONS = [
+  "Unity Certified Associate: Game Developer (in progress)",
+  "Blender Foundation — Creator Fundamentals",
+]
 
 export default function Resume() {
   return (
-    <section id="resume" className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-secondary/30 mt-8">
-      <div className="max-w-6xl mx-auto">
+    <section
+      id="resume"
+      aria-labelledby="resume-heading"
+      className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 scroll-mt-20"
+    >
+      <div className="max-w-[1400px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Left Column */}
+          {/* Sticky sidebar */}
           <ScrollReveal>
             <div className="lg:col-span-1">
-              <div className="sticky top-24 space-y-6">
+              <div className="lg:sticky lg:top-24 space-y-6">
                 <div>
-                  <h2 className="text-4xl font-bold tracking-tight mb-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                    CV & Resume
+                  <p className="text-sm font-medium uppercase tracking-[0.2em] text-gold mb-3">Background</p>
+                  <h2 id="resume-heading" className="text-4xl font-bold tracking-tight mb-3 text-gradient">
+                    Resume & Skills
                   </h2>
-                  <p className="text-muted-foreground">Download my resume or explore my projects and skills below.</p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    A snapshot of capabilities across disciplines. Download the full CV or explore the
+                    breakdown below.
+                  </p>
                 </div>
 
                 <div className="space-y-3">
                   <a
-                    href="/Rajath-Resume.pdf"
+                    href="/api/generate-cv"
                     download
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-lg font-medium hover:opacity-90 transition-all w-full sm:w-auto justify-center lg:justify-start"
+                    className="sheen flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gold to-gold-bright text-black rounded-lg font-medium hover:shadow-[0_0_26px_rgba(110,162,255,0.4)] transition-shadow w-full justify-center min-h-[48px]"
                   >
-                    <Download size={18} />
-                    Download Resume
+                    <Download size={18} aria-hidden="true" />
+                    Download CV
                   </a>
                   <a
-                    href="#"
-                    className="flex items-center gap-2 px-6 py-3 border border-cyan-500/50 bg-card text-cyan-400 rounded-lg font-medium hover:bg-cyan-500/10 transition-colors w-full sm:w-auto justify-center lg:justify-start"
+                    href="mailto:hello@rajath.dev?subject=Portfolio%20Inquiry%20%E2%80%94%20Rajath%20K"
+                    className="flex items-center gap-2 px-6 py-3 border border-gold/40 glass text-gold rounded-lg font-medium hover:bg-gold/10 hover:border-gold/70 transition-colors w-full justify-center min-h-[48px]"
                   >
-                    <ExternalLink size={18} />
-                    LinkedIn Profile
+                    <Mail size={18} aria-hidden="true" />
+                    Email Me
                   </a>
                 </div>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Right Column */}
-          <div className="lg:col-span-2 space-y-12">
-            {/* Projects */}
+          {/* Content */}
+          <div className="lg:col-span-2 space-y-14">
+            {/* Skills */}
             <ScrollReveal delay={100}>
               <div>
-                <h3 className="text-2xl font-bold mb-6 text-cyan-400">Featured Projects</h3>
-                <div className="space-y-8">
-                  {/* Project 1 */}
-                  <div className="pb-8 border-b border-border/50 last:border-b-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <span className="text-lg font-semibold text-foreground">Procedural Dungeon Generator</span>
-                        <p className="text-purple-400 text-sm">Personal Project</p>
+                <h3 className="text-2xl font-bold mb-6 text-foreground">Skills by Discipline</h3>
+                <div className="grid sm:grid-cols-2 gap-x-8 gap-y-8">
+                  {SKILL_GROUPS.map((group) => (
+                    <div key={group.heading}>
+                      <h4 className="text-sm font-bold uppercase tracking-wider text-gold mb-4">
+                        {group.heading}
+                      </h4>
+                      <div className="space-y-4">
+                        {group.skills.map((skill, i) => (
+                          <ProgressBar key={skill.label} label={skill.label} value={skill.value} delay={i * 100} />
+                        ))}
                       </div>
-                      <span className="text-sm text-muted-foreground">2024</span>
-                    </div>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Developed a procedural dungeon generation system using recursive algorithms in Unity. Implemented
-                      dynamic room placement, enemy spawning, and puzzle mechanics.
-                    </p>
-                  </div>
-
-                  {/* Project 2 */}
-                  <div className="pb-8 border-b border-border/50 last:border-b-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <span className="text-lg font-semibold text-foreground">Character Animation Suite</span>
-                        <p className="text-purple-400 text-sm">Personal Project</p>
-                      </div>
-                      <span className="text-sm text-muted-foreground">2024</span>
-                    </div>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Created a character animation library with 50+ motion sequences in Blender. Applied IK rigging,
-                      blend shapes, and state machine controllers.
-                    </p>
-                  </div>
-
-                  {/* Project 3 */}
-                  <div>
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <span className="text-lg font-semibold text-foreground">3D Environment Pack</span>
-                        <p className="text-purple-400 text-sm">Personal Project</p>
-                      </div>
-                      <span className="text-sm text-muted-foreground">2023</span>
-                    </div>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Designed a modular sci-fi environment kit with PBR materials optimized for real-time rendering.
-                      Created custom shaders and LOD systems.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Skills - Cleaned up */}
-            <ScrollReveal delay={200}>
-              <div>
-                <h3 className="text-2xl font-bold mb-6 text-cyan-400">Skills & Expertise</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {[
-                    { title: "Game Engines", items: "Unity, Unreal Engine, Godot" },
-                    { title: "3D Software", items: "Blender, Maya, ZBrush" },
-                    { title: "Programming", items: "C#, C++, Blueprints" },
-                    { title: "Animation", items: "Rigging, Motion Capture, VFX" },
-                    { title: "Design", items: "Level Design, UI/UX, Concept Art" },
-                    { title: "Rendering", items: "Cycles, Eevee, Arnold" },
-                  ].map((skillGroup) => (
-                    <div
-                      key={skillGroup.title}
-                      className="p-4 bg-card/50 rounded-lg border border-border/50 hover:border-cyan-500/30 transition-colors"
-                    >
-                      <h4 className="font-semibold mb-2 text-purple-300">{skillGroup.title}</h4>
-                      <p className="text-sm text-muted-foreground">{skillGroup.items}</p>
                     </div>
                   ))}
                 </div>
               </div>
             </ScrollReveal>
 
-            {/* Education */}
-            <ScrollReveal delay={300}>
+            {/* Experience timeline */}
+            <ScrollReveal delay={150}>
               <div>
-                <h3 className="text-2xl font-bold mb-6 text-cyan-400">Education</h3>
-                <div className="p-4 bg-card/50 rounded-lg border border-border/50">
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <h4 className="font-semibold text-foreground">Bachelor of Computer Applications</h4>
-                      <p className="text-sm text-purple-400">Game Design & Graphics</p>
-                      <p className="text-sm text-muted-foreground">Shoolini University, Himachal Pradesh</p>
+                <h3 className="text-2xl font-bold mb-6 text-foreground">Featured Projects</h3>
+                <ol className="relative border-l border-white/15 ml-2 space-y-8">
+                  {EXPERIENCE.map((item) => (
+                    <li key={item.title} className="pl-6">
+                      <span
+                        className="absolute -left-[7px] mt-1.5 h-3.5 w-3.5 rounded-full bg-gradient-to-r from-gold to-gold-bright ring-4 ring-[#0a0a0b]"
+                        aria-hidden="true"
+                      />
+                      <div className="flex items-start justify-between gap-3 mb-1">
+                        <div>
+                          <h4 className="font-semibold text-foreground">{item.title}</h4>
+                          <p className="text-sm text-gold/80">{item.org}</p>
+                        </div>
+                        <span className="text-sm text-muted-foreground whitespace-nowrap">{item.date}</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </ScrollReveal>
+
+            {/* Education */}
+            <ScrollReveal delay={200}>
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-foreground">Education</h3>
+                <div className="group glass rounded-xl border border-white/10 p-5 hover:border-gold/40 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <span className="shrink-0 mt-1 p-2 rounded-lg bg-gold/10 text-gold">
+                      <GraduationCap className="w-5 h-5" aria-hidden="true" />
+                    </span>
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <h4 className="font-semibold text-foreground">Bachelor of Computer Applications</h4>
+                          <p className="text-sm text-gold/80">Game Design &amp; Graphics</p>
+                          <p className="text-sm text-muted-foreground">Shoolini University, Himachal Pradesh</p>
+                        </div>
+                        <span className="text-sm text-muted-foreground whitespace-nowrap">2025</span>
+                      </div>
+                      {/* Coursework revealed on hover/focus */}
+                      <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] group-focus-within:grid-rows-[1fr] transition-[grid-template-rows] duration-300">
+                        <div className="overflow-hidden">
+                          <p className="text-sm text-muted-foreground pt-3 leading-relaxed">
+                            Relevant coursework: Game Engine Architecture, 3D Modelling & Animation, Real-Time
+                            Rendering, Data Structures & Algorithms, and Human-Computer Interaction.
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-sm text-muted-foreground whitespace-nowrap ml-2">2025</span>
                   </div>
                 </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Certifications */}
+            <ScrollReveal delay={250}>
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-foreground">Certifications</h3>
+                <ul className="space-y-3">
+                  {CERTIFICATIONS.map((cert) => (
+                    <li key={cert} className="flex items-center gap-3 glass rounded-lg border border-white/10 px-4 py-3">
+                      <Award className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
+                      <span className="text-sm text-muted-foreground">{cert}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </ScrollReveal>
           </div>

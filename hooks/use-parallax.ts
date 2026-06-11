@@ -1,28 +1,34 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
-export function useParallax() {
-  const ref = useRef<HTMLDivElement>(null)
+/**
+ * Returns a parallax translateY offset (in px) based on the window scroll
+ * position multiplied by `rate`. A rate of 0.3 moves an element at 30% of the
+ * scroll speed. Honors reduced-motion by returning 0.
+ */
+export function useParallax(rate = 0.3, enabled = true) {
   const [offset, setOffset] = useState(0)
 
   useEffect(() => {
+    if (!enabled) {
+      setOffset(0)
+      return
+    }
+
+    let frame = 0
     const handleScroll = () => {
-      if (!ref.current) return
-
-      const element = ref.current
-      const { top, bottom } = element.getBoundingClientRect()
-      const elementHeight = bottom - top
-
-      // Calculate parallax offset based on element position in viewport
-      const parallaxAmount = (window.innerHeight - top) * 0.15 // Adjust multiplier for intensity
-
-      setOffset(parallaxAmount)
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => setOffset(window.scrollY * rate))
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    handleScroll()
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      cancelAnimationFrame(frame)
+    }
+  }, [rate, enabled])
 
-  return { ref, offset }
+  return offset
 }

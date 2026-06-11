@@ -1,55 +1,93 @@
 "use client"
 
-import { Mail, Linkedin, Twitter } from "lucide-react"
+import { Mail, MapPin, Clock, ArrowUpRight } from "lucide-react"
+import { ScrollReveal } from "./scroll-reveal"
+import { SocialLinks } from "./social-links"
+import { siteConfig, mailtoHref } from "@/lib/site-config"
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto text-center">
-        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-          Let's Connect
-        </h2>
+    <section
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-20"
+    >
+      {/* Section-specific triangular grid pattern. */}
+      <div
+        className="absolute inset-0 -z-10 opacity-[0.04]"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            "linear-gradient(60deg, transparent 49%, #6ea2ff 49.5%, #6ea2ff 50.5%, transparent 51%), linear-gradient(-60deg, transparent 49%, rgba(255,255,255,0.6) 49.5%, rgba(255,255,255,0.6) 50.5%, transparent 51%)",
+          backgroundSize: "44px 76px",
+        }}
+      />
 
-        <p className="text-muted-foreground mb-2">21 • Bangalore, India</p>
-
-        <p className="text-lg text-muted-foreground mb-12">
-          Open to opportunities in game development, 3D art, and animation. Let's create something amazing together.
-        </p>
-
-        <a
-          href="mailto:hello@example.com"
-          className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-lg font-semibold hover:opacity-90 transition-all text-lg mb-12"
-        >
-          <Mail size={20} />
-          Get in Touch
-        </a>
-
-        <div className="flex items-center justify-center gap-6">
-          {[
-            { icon: Linkedin, label: "LinkedIn", href: "#" },
-            { icon: Twitter, label: "Twitter", href: "#" },
-            { icon: Mail, label: "Email", href: "mailto:hello@example.com" },
-          ].map((social) => {
-            const Icon = social.icon
-            return (
-              <a
-                key={social.label}
-                href={social.href}
-                className="p-3 bg-card/50 text-muted-foreground rounded-lg border border-border/50 hover:border-cyan-500/50 hover:text-cyan-400 transition-all"
-                aria-label={social.label}
-              >
-                <Icon size={20} />
-              </a>
-            )
-          })}
-        </div>
-
-        <div className="mt-12 pt-8 border-t border-border/50">
-          <div className="inline-flex items-center gap-2 text-muted-foreground">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span>Open to freelance and full-time opportunities</span>
+      <div className="max-w-3xl mx-auto text-center">
+        <ScrollReveal>
+          {/* Availability badge */}
+          <div className="inline-flex items-center gap-2.5 glass rounded-full px-5 py-2 mb-8">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 animate-pulse-dot" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
+            </span>
+            <span className="text-sm font-medium text-emerald-300">
+              Available for freelance &amp; full-time roles
+            </span>
           </div>
-        </div>
+
+          <h2 id="contact-heading" className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 text-gradient">
+            Let&apos;s Build Something
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
+            Open to opportunities in game development, 3D art, and software. Whether you have a project in mind
+            or just want to talk shop, my inbox is open.
+          </p>
+
+          {/* Location + timezone */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground mb-12">
+            <span className="inline-flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-gold" aria-hidden="true" />
+              Bangalore, India
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Clock className="w-4 h-4 text-gold" aria-hidden="true" />
+              IST · UTC+5:30
+            </span>
+          </div>
+        </ScrollReveal>
+
+        {/* Primary email CTA */}
+        <ScrollReveal delay={100}>
+          <a
+            href={mailtoHref}
+            className="group sheen hover-lift relative mx-auto flex max-w-md flex-col items-center gap-4 glass rounded-2xl border border-white/10 p-8 sm:p-10 hover:border-gold/50 hover:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8),0_0_36px_-10px_rgba(110,162,255,0.4)]"
+          >
+            <span className="p-4 rounded-xl bg-gold/10 text-gold group-hover:bg-gold/20 transition-colors">
+              <Mail className="w-7 h-7" aria-hidden="true" />
+            </span>
+            <span className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              Drop me a line
+            </span>
+            <span className="inline-flex items-center gap-2 text-xl sm:text-2xl font-semibold text-foreground group-hover:text-gold transition-colors break-all">
+              {siteConfig.email}
+              <ArrowUpRight
+                className="w-5 h-5 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              />
+            </span>
+          </a>
+        </ScrollReveal>
+
+        {/* Social links */}
+        <ScrollReveal delay={200}>
+          <div className="mt-10 flex flex-col items-center gap-4">
+            <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              Or find me on
+            </span>
+            <SocialLinks className="justify-center" iconSize={20} />
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   )
