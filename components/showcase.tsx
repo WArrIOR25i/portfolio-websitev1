@@ -59,7 +59,7 @@ export default function Showcase({ hideIntro = false }: { hideIntro?: boolean })
                   Featured Projects
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-xl">
-                  A cross-section of work spanning game development, 3D art, animation, and software tooling.
+                  A cross-section of work spanning game development, 3D art and animation.
                   Filter by discipline or explore it all.
                 </p>
               </div>

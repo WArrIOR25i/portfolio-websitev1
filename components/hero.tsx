@@ -6,7 +6,7 @@ import { ArrowRight, Mail, ChevronDown } from "lucide-react"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { WavyText } from "./wavy-text"
 
-const DISCIPLINE_TAGS = ["Game Developer", "3D Artist", "Animator", "Software Engineer"]
+const DISCIPLINE_TAGS = ["Game Developer", "3D Artist", "Animator"]
 
 /** A CTA button that subtly drifts toward the cursor (magnetic effect). */
 function MagneticLink({
@@ -149,7 +149,7 @@ export default function Hero() {
           className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-up"
           style={{ animationDelay: "600ms" }}
         >
-          A multi-discipline creative technologist from Bangalore, India — building immersive games,
+          A creative technologist from Bangalore, India — building immersive games,
           photorealistic 3D worlds, and the tools that bring them to life.
         </p>
 

@@ -16,7 +16,7 @@ export default function Footer() {
               <h2 className="font-semibold text-gradient">{siteConfig.name}</h2>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-              Multi-discipline creative technologist — games, 3D art, animation, and software crafted with
+              Creative technologist — games, 3D art, animation, and software crafted with
               precision.
             </p>
             <SocialLinks />
