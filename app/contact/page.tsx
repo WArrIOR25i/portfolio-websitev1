@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { PageHeader } from "@/components/page-header"
 import Contact from "@/components/contact"
+import { SocialTabs } from "@/components/social-tabs"
 
 export const metadata: Metadata = {
   title: "Contact — Rajath K",
@@ -17,6 +18,8 @@ export default function ContactPage() {
         intro="Open to opportunities in game development, 3D art, and software. Have a project or just want to talk shop? My inbox is open."
       />
       <Contact />
+      {/* "Let's talk — find me around the web" (moved here from the homepage). */}
+      <SocialTabs />
     </>
   )
 }

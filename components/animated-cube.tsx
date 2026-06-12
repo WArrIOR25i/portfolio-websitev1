@@ -173,11 +173,17 @@ export function AnimatedCube() {
         ref={containerRef}
         style={{
           perspective: "1000px",
+          WebkitPerspective: "1000px",
           width: "100%",
           height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          // Keep the 3D scene from being flattened by ancestor transforms
+          // (the ScrollReveal wrapper always carries a transform), which is the
+          // root cause of the cube appearing flat / invisible on mobile Safari.
+          transformStyle: "preserve-3d",
+          WebkitTransformStyle: "preserve-3d",
         }}
       >
         <div
@@ -187,6 +193,11 @@ export function AnimatedCube() {
             height: `${cubeSize}px`,
             position: "relative",
             transformStyle: "preserve-3d",
+            WebkitTransformStyle: "preserve-3d",
+            // Initial pose so the element reads as a 3D cube on first paint,
+            // even before the rAF loop starts (important on mobile where the
+            // loop may start a frame later).
+            transform: "translateZ(-40px) rotateX(-18deg) rotateY(-24deg)",
           }}
         >
           {faces.map((transform, i) => (

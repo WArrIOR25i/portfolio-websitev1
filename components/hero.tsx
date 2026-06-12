@@ -157,7 +157,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up"
           style={{ animationDelay: "720ms" }}
         >
-          <MagneticLink href="/work" variant="primary" enabled={!reducedMotion}>
+          <MagneticLink href="/#work" variant="primary" enabled={!reducedMotion}>
             Explore Work
             <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </MagneticLink>

@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { createPortal } from "react-dom"
 import { X, ChevronLeft, ChevronRight, ExternalLink, Clock, UserCircle } from "lucide-react"
 import { useEffect, useRef, useState, useCallback } from "react"
 import { DISCIPLINES, type Project } from "@/lib/projects-data"
@@ -18,10 +19,16 @@ export function ProjectModal({ projects, index, onClose, onNavigate }: ProjectMo
   const project = isOpen ? projects[index] : null
 
   const [mediaIndex, setMediaIndex] = useState(0)
+  const [mounted, setMounted] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const touchStartX = useRef<number | null>(null)
+
+  // Portals require the DOM, so only render after mount to avoid SSR mismatch.
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Reset carousel when the project changes.
   useEffect(() => {
@@ -52,11 +59,13 @@ export function ProjectModal({ projects, index, onClose, onNavigate }: ProjectMo
     if (isOpen) {
       triggerRef.current = document.activeElement as HTMLElement
       document.body.style.overflow = "hidden"
-      // Move focus into the modal.
-      requestAnimationFrame(() => closeButtonRef.current?.focus())
+      // Move focus into the modal WITHOUT scrolling the page. preventScroll
+      // stops the browser from jumping the document to the top when the
+      // off-viewport close button receives focus.
+      requestAnimationFrame(() => closeButtonRef.current?.focus({ preventScroll: true }))
     } else {
       document.body.style.overflow = ""
-      triggerRef.current?.focus?.()
+      triggerRef.current?.focus?.({ preventScroll: true })
     }
     return () => {
       document.body.style.overflow = ""
@@ -93,10 +102,12 @@ export function ProjectModal({ projects, index, onClose, onNavigate }: ProjectMo
     return () => document.removeEventListener("keydown", onKeyDown)
   }, [isOpen, onClose, nextMedia, prevMedia])
 
-  if (!isOpen || !project) return null
+  if (!isOpen || !project || !mounted) return null
 
   const discipline = DISCIPLINES[project.category]
-  const currentMedia = project.media[mediaIndex]
+  // Fall back to the first media item so a stale carousel index never yields
+  // an empty/broken view.
+  const currentMedia = project.media[mediaIndex] ?? project.media[0]
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
@@ -110,7 +121,7 @@ export function ProjectModal({ projects, index, onClose, onNavigate }: ProjectMo
     touchStartX.current = null
   }
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -156,23 +167,29 @@ export function ProjectModal({ projects, index, onClose, onNavigate }: ProjectMo
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            {currentMedia.type === "image" ? (
-              <Image
-                key={mediaIndex}
-                src={currentMedia.url || "/placeholder.svg"}
-                alt={currentMedia.caption || `${project.title} — view ${mediaIndex + 1}`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-contain animate-crossfade"
-                priority
-              />
+            {currentMedia ? (
+              currentMedia.type === "image" ? (
+                <Image
+                  key={mediaIndex}
+                  src={currentMedia.url || "/placeholder.svg"}
+                  alt={currentMedia.caption || `${project.title} — view ${mediaIndex + 1}`}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  className="object-contain animate-crossfade"
+                  priority
+                />
+              ) : (
+                <video
+                  key={mediaIndex}
+                  src={currentMedia.url}
+                  controls
+                  className="w-full h-full object-contain"
+                />
+              )
             ) : (
-              <video
-                key={mediaIndex}
-                src={currentMedia.url}
-                controls
-                className="w-full h-full object-contain"
-              />
+              <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+                No preview available.
+              </div>
             )}
 
             {/* Carousel arrows */}
@@ -195,7 +212,7 @@ export function ProjectModal({ projects, index, onClose, onNavigate }: ProjectMo
               </>
             )}
 
-            {currentMedia.caption && (
+            {currentMedia?.caption && (
               <p className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-white/80 bg-black/60 px-3 py-1 rounded-full">
                 {currentMedia.caption}
               </p>
@@ -297,6 +314,7 @@ export function ProjectModal({ projects, index, onClose, onNavigate }: ProjectMo
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

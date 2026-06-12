@@ -42,7 +42,7 @@ export default function Showcase({ hideIntro = false }: { hideIntro?: boolean })
 
   return (
     <section
-      id="showcase"
+      id="work"
       aria-labelledby="showcase-heading"
       className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 scroll-mt-20"
     >
@@ -66,7 +66,7 @@ export default function Showcase({ hideIntro = false }: { hideIntro?: boolean })
             </ScrollReveal>
 
             {!reducedMotion && (
-              <ScrollReveal delay={150} className="h-48 sm:h-64 md:h-80 lg:h-96 hidden sm:block">
+              <ScrollReveal delay={150} className="h-64 sm:h-72 md:h-80 lg:h-96">
                 <AnimatedCube />
               </ScrollReveal>
             )}

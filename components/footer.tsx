@@ -27,10 +27,10 @@ export default function Footer() {
               <Link href="/" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
                 Home
               </Link>
-              <Link href="/work" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
+              <Link href="/#work" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
                 Work
               </Link>
-              <Link href="/about" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
+              <Link href="/#about" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
                 About
               </Link>
               <Link href="/contact" className="text-muted-foreground hover:text-gold transition-colors block w-fit">
