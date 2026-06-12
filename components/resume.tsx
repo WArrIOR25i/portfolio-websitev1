@@ -3,72 +3,88 @@
 import { Download, Mail, GraduationCap, Award } from "lucide-react"
 import { ScrollReveal } from "./scroll-reveal"
 import { ProgressBar } from "./ui/progress-bar"
+import { mailtoHref } from "@/lib/site-config"
 
 const SKILL_GROUPS = [
   {
-    heading: "Game Development",
+    heading: "Programming Languages",
     skills: [
-      { label: "Unity / C#", value: 90 },
-      { label: "Unreal Engine / C++", value: 80 },
-      { label: "Gameplay & AI Systems", value: 85 },
-      { label: "Godot", value: 65 },
+      { label: "C# / .NET", value: 88 },
+      { label: "C++", value: 82 },
+      { label: "Python", value: 85 },
+      { label: "JavaScript / TypeScript", value: 78 },
+      { label: "GDScript", value: 70 },
     ],
   },
   {
-    heading: "3D Art & Animation",
+    heading: "Game Engines",
     skills: [
-      { label: "Blender (Modelling & Sculpt)", value: 90 },
-      { label: "Lighting & Rendering (Cycles/Eevee)", value: 85 },
-      { label: "Rigging & Animation", value: 75 },
-      { label: "Motion Design (After Effects)", value: 70 },
+      { label: "Unity", value: 85 },
+      { label: "Unreal Engine (Blueprints + C++)", value: 82 },
+      { label: "Godot", value: 68 },
     ],
   },
   {
-    heading: "Programming",
+    heading: "Web Development",
     skills: [
-      { label: "C# / C++", value: 85 },
-      { label: "Python", value: 75 },
-      { label: "JavaScript / TypeScript", value: 70 },
-      { label: "Algorithms & Tooling", value: 80 },
+      { label: "Next.js", value: 80 },
+      { label: "React", value: 80 },
+      { label: "Node.js", value: 75 },
     ],
   },
   {
-    heading: "Tools & Pipelines",
+    heading: "Tools, AI & Practices",
     skills: [
-      { label: "Git / GitHub", value: 85 },
-      { label: "Substance Painter", value: 70 },
-      { label: "Shader Authoring", value: 72 },
+      { label: "Ollama / Local LLMs", value: 75 },
+      { label: "OpenCV / Computer Vision", value: 78 },
+      { label: "Git & Agile", value: 85 },
     ],
   },
 ]
 
 const EXPERIENCE = [
   {
-    title: "Procedural Dungeon Generator",
-    org: "Personal Project",
-    date: "2024",
+    title: "Echo — AI Voice Assistant",
+    org: "Personal Project · Ollama + Voice Interface",
+    date: "2025",
     description:
-      "Built a runtime procedural dungeon system in Unity using recursive room placement. Designed enemy spawning and puzzle mechanics around designer-tunable parameters.",
+      "Building a privacy-first local AI voice assistant on Ollama with wake-word detection and passive listening. Wrote core commands for browsing, playing music, and shutting down on voice, all running on-device for real-time, private interaction.",
   },
   {
-    title: "Character Animation Suite",
-    org: "Personal Project",
+    title: "VR Horror Game",
+    org: "Unreal Engine · Meta Quest 2",
     date: "2024",
     description:
-      "Authored a library of 50+ motion sequences in Blender with IK rigging and blend shapes. Wired up state-machine controllers for seamless transitions.",
+      "Developed an immersive horror VR experience for Meta Quest 2. Handled gameplay logic with Blueprints and optimized performance with C++, refining the experience through extensive playtesting.",
   },
   {
-    title: "3D Environment Pack",
-    org: "Personal Project",
+    title: "Boss Rush",
+    org: "Unity · Game Jam (3-person team)",
+    date: "2024",
+    description:
+      "Delivered a fast-paced action game under a tight game-jam deadline. Owned the combat mechanics and level design while driving rapid prototyping — a hands-on lesson in teamwork and agile development.",
+  },
+  {
+    title: "Tournament Registration Platform",
+    org: "Next.js · React · Node.js",
     date: "2023",
     description:
-      "Designed a modular sci-fi environment kit with PBR materials optimized for real-time use. Created custom shaders and LOD systems for performance.",
+      "Built a full-stack web app for tournament signups with a responsive, mobile-first UI. Implemented form handling, validation, and data storage on the backend, tested across devices.",
+  },
+  {
+    title: "Hand-Tracking Ping Pong",
+    org: "OpenCV · Computer Vision",
+    date: "2023",
+    description:
+      "Made a real-time ping pong game controlled by hand tracking using OpenCV and live camera input, with low-latency input design for responsive paddle movement.",
   },
 ]
 
-const CERTIFICATIONS = [
-  "Unity Certified Associate: Game Developer (in progress)",
-  "Blender Foundation — Creator Fundamentals",
+const CORE_STRENGTHS = [
+  "Debugging & Problem Solving",
+  "Teamwork & Quick Learning",
+  "Computer Vision & HCI",
+  "Full-Stack & Game Engine Development",
 ]
 
 export default function Resume() {
@@ -97,15 +113,15 @@ export default function Resume() {
 
                 <div className="space-y-3">
                   <a
-                    href="/api/generate-cv"
-                    download
+                    href="/Rajath_K_Resume.pdf"
+                    download="Rajath_K_Resume.pdf"
                     className="sheen flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gold to-gold-bright text-black rounded-lg font-medium hover:shadow-[0_0_26px_rgba(110,162,255,0.4)] transition-shadow w-full justify-center min-h-[48px]"
                   >
                     <Download size={18} aria-hidden="true" />
                     Download CV
                   </a>
                   <a
-                    href="mailto:hello@rajath.dev?subject=Portfolio%20Inquiry%20%E2%80%94%20Rajath%20K"
+                    href={mailtoHref}
                     className="flex items-center gap-2 px-6 py-3 border border-gold/40 glass text-gold rounded-lg font-medium hover:bg-gold/10 hover:border-gold/70 transition-colors w-full justify-center min-h-[48px]"
                   >
                     <Mail size={18} aria-hidden="true" />
@@ -176,11 +192,11 @@ export default function Resume() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <h4 className="font-semibold text-foreground">Bachelor of Computer Applications</h4>
-                          <p className="text-sm text-gold/80">Game Design &amp; Graphics</p>
-                          <p className="text-sm text-muted-foreground">Shoolini University, Himachal Pradesh</p>
+                          <h4 className="font-semibold text-foreground">Bachelor of Computer Applications (BCA)</h4>
+                          <p className="text-sm text-gold/80">Specialization: Game Design &amp; Graphics · CGPA 8.2</p>
+                          <p className="text-sm text-muted-foreground">Shoolini University, Solan, Himachal Pradesh</p>
                         </div>
-                        <span className="text-sm text-muted-foreground whitespace-nowrap">2025</span>
+                        <span className="text-sm text-muted-foreground whitespace-nowrap">2022 – 2025</span>
                       </div>
                       {/* Coursework revealed on hover/focus */}
                       <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] group-focus-within:grid-rows-[1fr] transition-[grid-template-rows] duration-300">
@@ -197,15 +213,15 @@ export default function Resume() {
               </div>
             </ScrollReveal>
 
-            {/* Certifications */}
+            {/* Core strengths */}
             <ScrollReveal delay={250}>
               <div>
-                <h3 className="text-2xl font-bold mb-6 text-foreground">Certifications</h3>
-                <ul className="space-y-3">
-                  {CERTIFICATIONS.map((cert) => (
-                    <li key={cert} className="flex items-center gap-3 glass rounded-lg border border-white/10 px-4 py-3">
+                <h3 className="text-2xl font-bold mb-6 text-foreground">Core Strengths</h3>
+                <ul className="grid sm:grid-cols-2 gap-3">
+                  {CORE_STRENGTHS.map((item) => (
+                    <li key={item} className="flex items-center gap-3 glass rounded-lg border border-white/10 px-4 py-3">
                       <Award className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
-                      <span className="text-sm text-muted-foreground">{cert}</span>
+                      <span className="text-sm text-muted-foreground">{item}</span>
                     </li>
                   ))}
                 </ul>
